@@ -1,0 +1,6 @@
+C:\Users\doort\source\repos\ImageCompare\ImageCompare\ImageCompare\bin\Release\ImageCompare.exe.config
+C:\Users\doort\source\repos\ImageCompare\ImageCompare\ImageCompare\bin\Release\ImageCompare.exe
+C:\Users\doort\source\repos\ImageCompare\ImageCompare\ImageCompare\bin\Release\ImageCompare.pdb
+C:\Users\doort\source\repos\ImageCompare\ImageCompare\ImageCompare\obj\Release\ImageCompare.exe
+C:\Users\doort\source\repos\ImageCompare\ImageCompare\ImageCompare\obj\Release\ImageCompare.pdb
+C:\Users\doort\source\repos\ImageCompare\ImageCompare\ImageCompare\obj\Release\ImageCompare.csprojAssemblyReference.cache
