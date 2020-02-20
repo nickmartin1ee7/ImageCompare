@@ -11,35 +11,40 @@ namespace ImageCompare
     {
         private static Bitmap img1;
         private static Bitmap img2;
+        private static int b = 32;
         static void Main(string[] args)
         {
-            InitImgs(args);
-            var diffPercent = CompareImgsRGB();
-            //var diffPercent = CompareImgsQuick();
-            DisposeImgs();
+            while (true)
+            {
+                Clear();
+                InitImgs(args);
+                var diffPercent = CompareImgsRGB();
+                //var diffPercent = CompareImgsQuick();
+                DisposeImgs();
 
-            string level;
-            const double medLevel = .03;
-            const double highLevel = .10;
+                string level;
+                const double medLevel = .03;
+                const double highLevel = .1;
 
-            if (diffPercent >= highLevel)
-            {
-                level = "HIGH";
+                if (diffPercent >= highLevel)
+                {
+                    level = "HIGH";
+                }
+                else if (diffPercent >= medLevel)
+                {
+                    level = "MODERATE";
+                }
+                else if (diffPercent == 0)
+                {
+                    level = "IDENTICAL";
+                }
+                else
+                {
+                    level = "LOW";
+                }
+                WriteLine($"Difference: {diffPercent:P} - {level} pixel difference");
+                ReadKey();
             }
-            else if (diffPercent >= medLevel)
-            {
-                level = "MODERATE";
-            }
-            else if (diffPercent == 0)
-            {
-                level = "IDENTICAL";
-            }
-            else
-            {
-                level = "LOW";
-            }
-            WriteLine($"Difference: {diffPercent:P} - {level} pixel difference");
-            ReadKey();
         }
 
 
@@ -81,6 +86,9 @@ namespace ImageCompare
             img1 = new Bitmap(ReadLine());
             Write("Image 2 path: ");
             img2 = new Bitmap(ReadLine());
+
+            img1 = new Bitmap(img1, b, b);
+            img2 = new Bitmap(img2, b, b);
         }
 
         // Calculates difference between two images RGB pixel values.
@@ -88,19 +96,17 @@ namespace ImageCompare
         {
             if (img1.Size != img2.Size)
             {
-                throw new NotImplementedException("Error: Image sizes are different. Must be the same for this implementation.");
+                throw new NotImplementedException("Error: Image sizes are different despite resizing attempt.");
             }
             else
             {
                 int maxPixelRange = 255;    // Pixel color range 0-255
-                int width = img1.Width;     // Width of both images
-                int height = img1.Height;   // Height of both images
                 double diff = 0;            // Difference double-percision value
 
                 // Consider threading for different images
-                for (int y = 0; y < height; ++y)   // Y-axis
+                for (int y = 0; y < b; ++y)   // Y-axis
                 {
-                    for (int x = 0; x < width; ++x)    // X-axis
+                    for (int x = 0; x < b; ++x)    // X-axis
                     {
                         Color pixel1 = img1.GetPixel(x, y);
                         Color pixel2 = img2.GetPixel(x, y);
@@ -110,7 +116,8 @@ namespace ImageCompare
                         diff += Math.Abs(pixel1.B - pixel2.B);
                     }
                 }
-                return (diff / maxPixelRange) / (width * height * 3);   // Average pixel difference for image pixels (accounts for 3 layers)
+                double result = (diff / maxPixelRange) / (b * b * 3);
+                return result;   // Average pixel difference for image pixels (accounts for 3 layers)
             }
         }
 
